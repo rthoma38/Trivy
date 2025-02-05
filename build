@@ -1,14 +1,22 @@
 pipeline {
     agent any
+
+    environment {
+        DOCKER_HOST = 'unix:///var/run/docker.sock'
+        CONTAINERD_ADDRESS = '/run/containerd/containerd.sock'
+        CONTAINERD_NAMESPACE = 'k8s.io'
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                sh 'docker build -t myimage:latest .'
             }
         }
-        stage('Test') {
+        stage('Deploy') {
             steps {
-                echo 'Testing...'
+                sh 'docker push myimage:latest'
             }
         }
         stage('Vulnerability Scan') {
