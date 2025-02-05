@@ -11,17 +11,17 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                sh 'docker build -t myimage:latest .'
+                sh 'docker build -t web-app:latest .'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'docker push myimage:latest'
+                sh 'docker push web-app:latest'
             }
         }
         stage('Vulnerability Scan') {
             steps {
-                sh 'trivy image web-app'
+                sh 'trivy image web-app:latest'
             }
         }
     }
