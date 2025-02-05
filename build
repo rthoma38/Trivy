@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Vulnerability Scan') {
             steps {
-                sh 'trivy image docker/web-app'
+                sh 'trivy image web-app'
             }
         }
     }
